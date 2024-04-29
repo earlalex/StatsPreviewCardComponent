@@ -5,17 +5,14 @@
   <meta name="viewport" content="width=device-width">
   <title>Stats Preview Card Component</title>
   <link rel="icon" type="image/x-icon" href="images/favicon-32x32.png">
-  <link href="style.css" rel="stylesheet" type="text/css" />
   <style>
     body {
-      font-size: 15px;
-      font-family: Inter, Lexend Deca, sans-serif;
-      font-weight: 400;
       margin: 0;
       --border-radius: 15px;
       --color-purple:  hsl(244, 38%, 16%);
       --color-soft-violet: hsl(277, 64%, 61%);
       --color-dark-blue: hsl(233, 47%, 7%);
+      --mobile-width: 315px;
     }
     main {
       background-color: var(--color-dark-blue);
@@ -26,11 +23,14 @@
     }
     .card {
       margin: auto;
-      max-width: 315px;
+      max-width: var(--mobile-width);
       background-color: var(--color-purple) ;
       color: white;
       border-radius: var(--border-radius);
       text-align: center;
+      font-size: 15px;
+      font-family: Inter, Lexend Deca, sans-serif;
+      font-weight: 400;
     }
     .card-header {
       width: 100%;
@@ -52,10 +52,14 @@
       opacity: .7;
     }
     .card-body, .card-stats {
+      animation: fadeIn 2s;
       padding: 0px 25px 25px 25px;
     }
     .special-text {
       color: var(--color-soft-violet);
+    }
+    .stat {
+      margin-bottom: 45px;
     }
     .attribution {
       font-size: 11px;
@@ -64,9 +68,13 @@
     .attribution a {
       color: var(--color-dark-blue);
     }
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
   </style>
 </head>
-
 <body>
   <main class="container">
     <div class="card">
@@ -78,20 +86,44 @@
       </section>
       <section class="card-stats">
         <div class="stat">
-          <h2>10k+</h2>
+          <h2><span class="countToTarget" data-start="0" data-target="10">10</span></h2>
           <p>Companies</p>
         </div>
         <div class="stat">
-          <h2>314</h2>
+          <h2><span class="countToTarget" data-start="0" data-target="314">314</span></h2>
           <p>Templates</p>
         </div>
         <div class="stat">
-          <h2>12M+</h2>
+          <h2><span class="countToTarget" data-start="0" data-target="12">12</span>M+</h2>
           <p>Queries</p>
         </div>  
       </section>
     </div>
   </main>
-  <script src="script.js"></script>
+  <script>
+    function countToTarget(duration,increment,speed) {
+      document.querySelectorAll(`.countToTarget`).forEach(function(el){
+          const targetValue = el.getAttribute('data-target'),
+          startValue = el.getAttribute('data-start'),
+          incrementValue = (value) => {
+            const increment = value * (1/speed);
+            if ((el.textContent * 1) < targetValue * 1) {
+              el.textContent = Math.ceil(el.textContent * 1 + increment);
+              setTimeout(incrementValue, duration, increment);
+            } else {
+              el.textContent = targetValue;
+            }
+          }
+        el.textContent = startValue;
+        if (Number(targetValue) !== NaN &&
+            Number(startValue) !== NaN) {
+          
+        } else {
+          console.log("Can not count to target. Please check your data-target and data-start attributes and ensure you are using numbers.")
+        }
+      })
+    };
+    document.addEventListener("load", countToTarget(3,1,3));
+  </script>
 </body>
 </html>
