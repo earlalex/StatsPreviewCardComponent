@@ -52,7 +52,7 @@
       opacity: .7;
     }
     .card-body, .card-stats {
-      animation: fadeIn 2s;
+      animation: fadeIn 3s;
       padding: 0px 25px 25px 25px;
     }
     .special-text {
@@ -101,29 +101,30 @@
     </div>
   </main>
   <script>
-    function countToTarget(duration,increment,speed) {
+    function countToTarget(increment,duration) {
       document.querySelectorAll(`.countToTarget`).forEach(function(el){
-          const targetValue = el.getAttribute('data-target'),
-          startValue = el.getAttribute('data-start'),
-          incrementValue = (value) => {
-            const increment = value * (1/speed);
-            if ((el.textContent * 1) < targetValue * 1) {
-              el.textContent = Math.ceil(el.textContent * 1 + increment);
-              setTimeout(incrementValue, duration, increment);
-            } else {
-              el.textContent = targetValue;
-            }
-          }
+        const targetValue = el.getAttribute('data-target'),
+          startValue = el.getAttribute('data-start');
         el.textContent = startValue;
+        let currentValue = el.textContent;
         if (Number(targetValue) !== NaN &&
-            Number(startValue) !== NaN) {
-          
+            Number(startValue) !== NaN &&
+            Number(currentValue) !== NaN
+           ) {
+          setCounter = setInterval(function(){
+            currentValue = el.textContent;
+            if(Number(currentValue) < Number(targetValue)){
+              el.textContent++;
+            } else {
+              clearInterval(setCounter);
+            }
+          },100*duration/Number(targetValue))
         } else {
           console.log("Can not count to target. Please check your data-target and data-start attributes and ensure you are using numbers.")
         }
       })
     };
-    document.addEventListener("load", countToTarget(3,1,3));
+    document.addEventListener("load", countToTarget(1,30));
   </script>
 </body>
 </html>
