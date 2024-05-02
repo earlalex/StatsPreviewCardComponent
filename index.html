@@ -1,37 +1,51 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>Stats Preview Card Component</title>
   <link rel="icon" type="image/x-icon" href="images/favicon-32x32.png">
   <style>
+    html,
+    body {
+      height: 100%;
+      min-height: 100vh;
+    }
+
     body {
       margin: 0;
-      --border-radius: 15px;
-      --color-purple:  hsl(244, 38%, 16%);
+      --border-radius: 10px;
+      --color-purple: hsl(244, 38%, 16%);
       --color-soft-violet: hsl(277, 64%, 61%);
       --color-dark-blue: hsl(233, 47%, 7%);
       --mobile-width: 315px;
+      --desktop-width: 100%;
     }
+
     main {
       background-color: var(--color-dark-blue);
+      display: flex;
+      justify-content: center;
       width: 100%;
-      height: 100%;
       padding: 25px;
       box-sizing: border-box;
     }
+
     .card {
       margin: auto;
-      max-width: var(--mobile-width);
-      background-color: var(--color-purple) ;
+      width: var(--mobile-width);
+      background-color: var(--color-purple);
       color: white;
       border-radius: var(--border-radius);
       text-align: center;
       font-size: 15px;
       font-family: Inter, Lexend Deca, sans-serif;
       font-weight: 400;
+      animation: fadeIn 2s ease-in-out;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
     }
+
     .card-header {
       width: 100%;
       height: 200px;
@@ -41,6 +55,7 @@
       border-top-left-radius: var(--border-radius);
       border-top-right-radius: var(--border-radius);
     }
+
     .card-header::after {
       content: "";
       display: block;
@@ -49,82 +64,159 @@
       background-color: var(--color-soft-violet);
       border-top-left-radius: var(--border-radius);
       border-top-right-radius: var(--border-radius);
-      opacity: .7;
+      opacity: .6;
+      filter: brightness(10%);
+      filter: contrast(130%);
     }
-    .card-body, .card-stats {
-      animation: fadeIn 3s;
-      padding: 0px 25px 25px 25px;
+    
+    .card-message,
+    .card-stats {
+      animation: fadeIn 4s;
+      padding: 0px 2rem;
+      font-weight: 200;
     }
+
+    .card-message {
+      padding-bottom: 1rem;
+    }
+
     .special-text {
       color: var(--color-soft-violet);
     }
+
     .stat {
       margin-bottom: 45px;
     }
+
+    .stat>h2 {
+      margin-bottom: 0;
+    }
+
+    .stat>p {
+      margin-top: 0;
+    }
+
     .attribution {
       font-size: 11px;
       text-align: center;
     }
+
     .attribution a {
       color: var(--color-dark-blue);
     }
-    @keyframes fadeIn {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
+
+    @media (min-width: 600px) {
+      main {
+        height: 100%;
+      }
+
+      .card {
+        text-align: left;
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: stretch;
+        width: var(--desktop-width);
+        border-radius: 0;
+        max-width: 800px;
+      }
+
+      .card-header {
+        background-image: url("/images/image-header-desktop.jpg");
+        height: auto;
+      }
+
+      .card-header,
+      .card-header::after {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+      }
+
+      .card-body {
+        width: 100%;
+        padding-right: 2rem;
+      }
+
+      .card-message {
+        padding: 3rem;
+        padding-bottom: 0px;
+      }
+
+      .card-stats {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 3rem;
+        padding-top: 0px;
+        text-align: center;
+      }
     }
 
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
   </style>
 </head>
+
 <body>
   <main class="container">
     <div class="card">
       <div class="card-header"></div>
-      <section class="card-body" >
+      <div class="card-body""+
+        ->
+        <section class=" card-message">
         <h1>Get <span class="special-text">insights</span> that help your business grow.</h1>
         <p>Discover the benefits of data analytics and make better decisions regarding revenue, customer
-          experience, and overall efficiency.</p> 
-      </section>
-      <section class="card-stats">
-        <div class="stat">
-          <h2><span class="countToTarget" data-start="0" data-target="10">10</span></h2>
-          <p>Companies</p>
-        </div>
-        <div class="stat">
-          <h2><span class="countToTarget" data-start="0" data-target="314">314</span></h2>
-          <p>Templates</p>
-        </div>
-        <div class="stat">
-          <h2><span class="countToTarget" data-start="0" data-target="12">12</span>M+</h2>
-          <p>Queries</p>
-        </div>  
-      </section>
+          experience, and overall efficiency.</p>
+        </section>
+        <section class="card-stats">
+          <div class="stat">
+            <h2><span class="countToTarget" data-start="0" data-target="10">10</span>K+</h2>
+            <p>Companies</p>
+          </div>
+          <div class="stat">
+            <h2><span class="countToTarget" data-start="0" data-target="314">314</span></h2>
+            <p>Templates</p>
+          </div>
+          <div class="stat">
+            <h2><span class="countToTarget" data-start="0" data-target="12">12</span>M+</h2>
+            <p>Queries</p>
+          </div>
+        </section>
+      </div>
     </div>
   </main>
   <script>
-    function countToTarget(increment,duration) {
-      document.querySelectorAll(`.countToTarget`).forEach(function(el){
+    function countToTarget(increment, duration) {
+      document.querySelectorAll(`.countToTarget`).forEach(function (el) {
         const targetValue = el.getAttribute('data-target'),
           startValue = el.getAttribute('data-start');
         el.textContent = startValue;
         let currentValue = el.textContent;
         if (Number(targetValue) !== NaN &&
-            Number(startValue) !== NaN &&
-            Number(currentValue) !== NaN
-           ) {
-          setCounter = setInterval(function(){
+          Number(startValue) !== NaN &&
+          Number(currentValue) !== NaN
+        ) {
+          setCounter = setInterval(function () {
             currentValue = el.textContent;
-            if(Number(currentValue) < Number(targetValue)){
+            if (Number(currentValue) < Number(targetValue)) {
               el.textContent++;
             } else {
               clearInterval(setCounter);
             }
-          },100*duration/Number(targetValue))
+          }, 100 * duration / Number(targetValue))
         } else {
           console.log("Can not count to target. Please check your data-target and data-start attributes and ensure you are using numbers.")
         }
       })
     };
-    document.addEventListener("load", countToTarget(1,30));
+    document.addEventListener("load", countToTarget(1, 30));
   </script>
 </body>
+
 </html>
